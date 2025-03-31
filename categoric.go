@@ -24,7 +24,7 @@ func lineas(nombre_de_archivo string) string {
 			texto += string(caracteres_de_archivo[linea])
 		} else {
 			// Agrego separador de linea para distinguir entre lineas
-			texto += fmt.Sprintf("\t[Hasta caracter %d]\n", linea)
+			texto += " "
 		} // Fin condicional iteracion
 	} // Fin de iteracion
 	return texto
@@ -64,20 +64,30 @@ func categorias(lista string) string {
 	return clasificacion
 } // fin funcion categorias
 
+func separar(n int) {
+	for caracteres := 0; caracteres < n; caracteres++ {
+		fmt.Print("_")
+	}
+}
+
+const caracteres_linea int = 49
+
 func main() {
 	/*
-		Prueba unitaria hasta el momento de funcion lineas...
+		sobre las funciones...
 
-		- Funciono, puede imprimir su porpio código fuente
-
-		- Falta que en vez de string devuelva una lista de strings
+		- Falta que en vez de string devuelvan una lista de strings
 
 		- Soporte para caracteres Unicode como la o con acento "ó"
 	*/
-	// Prueba mostrar lineas
-	fmt.Println(lineas("categoric.go"))
-	// Prueba unitaria contar repeticiones, falta que sea por lista de lineas y no de caracteres
-	fmt.Println("\n\tSe repite {", contar("{", lineas("categoric.go")), "veces en el archivo.")
-	// Prueba unitaria de categorias, falta que no se quede en el primer caracter
-	fmt.Println("\n\tlos caracteres sin duplicados son", categorias("{{}{}{}{}{}{{}}}"))
+	// Muestra tabla con repeticiones de cada categoria en el archivo
+	fmt.Println("|\tCategorias\t|\tRepeticones\t|")
+	// Hago así para que se ejecute una vez la funcion lineas
+	recorrido := lineas("categorias.lista")
+	// Recorro cada una de las categorias y veo cuanto de cada una tiene el archivo
+	for indice := 0; indice < len(categorias(recorrido)); indice++ {
+		separar(caracteres_linea)
+		texto_de_linea := string(categorias(recorrido)[indice])
+		fmt.Println("\n\t", texto_de_linea, "\t\t|\t", contar(texto_de_linea, recorrido), "\t")
+	}
 }
