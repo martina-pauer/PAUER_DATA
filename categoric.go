@@ -24,7 +24,7 @@ func lineas(nombre_de_archivo string) string {
 			texto += string(caracteres_de_archivo[linea])
 		} else {
 			// Agrego separador de linea para distinguir entre lineas
-			texto += " "
+			texto += ""
 		} // Fin condicional iteracion
 	} // Fin de iteracion
 	return texto
@@ -50,10 +50,7 @@ func contar(elemento string, lista string) uint {
 func categorias(lista string) string {
 	// Devuelve una lista sin duplicados
 	clasificacion := string(lista[0])
-	/*
-		Se repite el ciclo mas externo de 1 a el cuadrado de elementos de la lista
-		eso depende de cuantos elementos duplicados tenga la lista y su respectiva longitud
-	*/
+
 	for indice := 0; indice < len(lista); indice += 1 {
 		// Por cada elemento de la lista, agrego los que no esten en clasificacion
 		if contar(string(lista[indice]), clasificacion) == 0 {
