@@ -4,7 +4,7 @@ sys="Linux"
 arch="amd64"
 extension=""
 ejecutables="Linux/amd64/"
-compilados="categoric.go"
+compilados="categoric$extension"
 prefix=".."
 compilar"GOOS=$sys GOARCH=$arch go build $prefix"
 # Compilo cada uno de los archivos
