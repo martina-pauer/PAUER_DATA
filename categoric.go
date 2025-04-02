@@ -7,7 +7,7 @@ import (
 )
 
 func lineas(nombre_de_archivo string) string {
-	// Devuelve un archivo con lineas del archivo
+	// Devuelve una lista con lineas del archivo pasado como parametro
 
 	caracteres_de_archivo, mensaje_de_log := os.ReadFile(nombre_de_archivo)
 
@@ -19,13 +19,54 @@ func lineas(nombre_de_archivo string) string {
 	texto := ""
 
 	for linea := 0; linea < len(caracteres_de_archivo); linea += 1 {
-		if caracteres_de_archivo[linea] != 10 {
-			// Sumo caracteres a texto hasta encontrar nueva linea
-			texto += string(caracteres_de_archivo[linea])
-		} else {
-			// Agrego separador de linea para distinguir entre lineas
-			texto += ""
-		} // Fin condicional iteracion
+		/*
+			- "á" bytes (195, 161) ordinal 225
+
+			- "é" bytes (195, 169) ordinal 233
+
+			- "í" bytes (195, 173) ordinal 237
+
+			- "ó" bytes (195, 179) ordinal 243
+
+			- "ú" bytes (195, 186) ordinal 250
+		*/
+		if caracteres_de_archivo[linea] == 195 {
+			// Avanzo a caracter parametro de este caracter de control
+			linea += 1
+		}
+		// Se debe analizar cada uno de los casos por separado para ser mas flexible
+		if caracteres_de_archivo[linea] == 161 {
+			// Agrego a con tilde de forma directa para evitar errores
+			texto += "á"
+			// Voy al siguiente caracter para no mostrar versión defectuosa del caracter
+			linea += 1
+		}
+
+		if caracteres_de_archivo[linea] == 169 {
+			//  Misma lógica de arriba
+			texto += "é"
+			linea += 1
+		}
+
+		if caracteres_de_archivo[linea] == 173 {
+			texto += "í"
+			linea += 1
+		}
+
+		if caracteres_de_archivo[linea] == 179 {
+			texto += "ó"
+			linea += 1
+		}
+
+		if caracteres_de_archivo[linea] == 186 {
+			texto += "ú"
+			linea += 1
+		}
+
+		// Sumo caracteres a texto una vez que me posicione bien
+		texto += string(caracteres_de_archivo[linea])
+		// Acá debería ir el código para agregar texto a la lista
+		// .....
 	} // Fin de iteracion
 	return texto
 } // Fin de funcion lineas
@@ -73,9 +114,9 @@ func main() {
 	/*
 		sobre las funciones...
 
-		- Falta que en vez de string devuelvan una lista de strings
+			- "" bytes (195, 1 F)lta que en vez de string devuelvan una lista de strings
 
-		- Soporte para caracteres Unicode como la o con acento "ó"
+			- "" bytes (195, 1 S)porte para caracteres Unicode como la o con acento "ó"
 	*/
 	// Muestra tabla con repeticiones de cada categoria en el archivo
 	fmt.Println("|\tCategorias\t|\tRepeticones\t|")
