@@ -32,7 +32,6 @@ func lineas(nombre_de_archivo string) []string {
 		*/
 		if caracteres_de_archivo[linea] == 195 {
 			// Avanzo a caracter parametro de este caracter de control
-			lista[linea] += lista[linea]
 			linea += 1
 		}
 		// Se debe analizar cada uno de los casos por separado para ser mas flexible
@@ -65,8 +64,11 @@ func lineas(nombre_de_archivo string) []string {
 		}
 
 		// Sumo caracteres a lista[linea] una vez que me posicione bien
-		lista[linea] += string(caracteres_de_archivo[linea])
 
+		if caracteres_de_archivo[linea] != 13 && caracteres_de_archivo[linea] != 10 && (linea+16) < len(caracteres_de_archivo) {
+			lista[linea] += string(caracteres_de_archivo[linea : linea+16])
+			linea += 16
+		}
 	} // Fin de iteracion
 
 	return lista
@@ -117,9 +119,10 @@ func main() {
 	// Hago así para que se ejecute una vez la funcion lineas
 	recorrido := lineas("categorias.lista")
 	// Recorro cada una de las categorias y veo cuanto de cada una tiene el archivo
-	for indice := 0; indice < len(categorias(recorrido)); indice++ {
+	/*for indice := 0; indice < len(categorias(recorrido)); indice++ {
 		separar(caracteres_linea)
 		texto_de_linea := string(categorias(recorrido)[indice])
 		fmt.Println("\n\t", texto_de_linea, "\t\t|\t", contar(texto_de_linea, recorrido), "\t")
-	}
+	}*/
+	fmt.Println("lineas:", recorrido, "\ncategorias:\n", categorias(recorrido), "\nclasificación A:", contar("clasificación A", recorrido))
 }
