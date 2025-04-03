@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func lineas(nombre_de_archivo string) string {
+func lineas(nombre_de_archivo string) []string {
 	// Devuelve una lista con lineas del archivo pasado como parametro
 
 	caracteres_de_archivo, mensaje_de_log := os.ReadFile(nombre_de_archivo)
@@ -16,7 +16,7 @@ func lineas(nombre_de_archivo string) string {
 		log.Fatal(mensaje_de_log)
 	}
 
-	texto := ""
+	lista := make([]string, len(caracteres_de_archivo))
 
 	for linea := 0; linea < len(caracteres_de_archivo); linea += 1 {
 		/*
@@ -32,46 +32,47 @@ func lineas(nombre_de_archivo string) string {
 		*/
 		if caracteres_de_archivo[linea] == 195 {
 			// Avanzo a caracter parametro de este caracter de control
+			lista[linea] += lista[linea]
 			linea += 1
 		}
 		// Se debe analizar cada uno de los casos por separado para ser mas flexible
 		if caracteres_de_archivo[linea] == 161 {
 			// Agrego a con tilde de forma directa para evitar errores
-			texto += "á"
+			lista[linea] = "á"
 			// Voy al siguiente caracter para no mostrar versión defectuosa del caracter
 			linea += 1
 		}
 
 		if caracteres_de_archivo[linea] == 169 {
 			//  Misma lógica de arriba
-			texto += "é"
+			lista[linea] = "é"
 			linea += 1
 		}
 
 		if caracteres_de_archivo[linea] == 173 {
-			texto += "í"
+			lista[linea] = "í"
 			linea += 1
 		}
 
 		if caracteres_de_archivo[linea] == 179 {
-			texto += "ó"
+			lista[linea] = "ó"
 			linea += 1
 		}
 
 		if caracteres_de_archivo[linea] == 186 {
-			texto += "ú"
+			lista[linea] = "ú"
 			linea += 1
 		}
 
-		// Sumo caracteres a texto una vez que me posicione bien
-		texto += string(caracteres_de_archivo[linea])
-		// Acá debería ir el código para agregar texto a la lista
-		// .....
+		// Sumo caracteres a lista[linea] una vez que me posicione bien
+		lista[linea] += string(caracteres_de_archivo[linea])
+
 	} // Fin de iteracion
-	return texto
+
+	return lista
 } // Fin de funcion lineas
 
-func contar(elemento string, lista string) uint {
+func contar(elemento string, lista []string) uint {
 	// Busca cuantas veces se repite un elemento en una lista
 
 	var apariciones uint = 0
@@ -88,14 +89,14 @@ func contar(elemento string, lista string) uint {
 
 }
 
-func categorias(lista string) string {
-	// Devuelve una lista sin duplicados
-	clasificacion := string(lista[0])
+func categorias(lista []string) []string {
+	// Devuelve una lista sin duplicados de hasta longitud de lista
+	clasificacion := make([]string, len(lista))
 
 	for indice := 0; indice < len(lista); indice += 1 {
 		// Por cada elemento de la lista, agrego los que no esten en clasificacion
 		if contar(string(lista[indice]), clasificacion) == 0 {
-			clasificacion += string(lista[indice])
+			clasificacion[indice] = string(lista[indice])
 		}
 	} // Cerrar recorrida entre elementos sin dupliicar
 
@@ -111,13 +112,6 @@ func separar(n int) {
 const caracteres_linea int = 49
 
 func main() {
-	/*
-		sobre las funciones...
-
-			- "" bytes (195, 1 F)lta que en vez de string devuelvan una lista de strings
-
-			- "" bytes (195, 1 S)porte para caracteres Unicode como la o con acento "ó"
-	*/
 	// Muestra tabla con repeticiones de cada categoria en el archivo
 	fmt.Println("|\tCategorias\t|\tRepeticones\t|")
 	// Hago así para que se ejecute una vez la funcion lineas
