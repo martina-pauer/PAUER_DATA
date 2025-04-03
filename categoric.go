@@ -26,7 +26,7 @@ func lineas(nombre_de_archivo string) []string {
 		}
 
 		if linea+16 < len(lista) {
-			// Asigno linea en la lista de caracter 1 a 16
+			// Asigno caracter de linea en la lista
 			lista[linea] = string(caracteres_de_archivo[linea : linea+17])
 			// Salto 16 caracteres asignados a la linea
 			linea += 16
@@ -87,6 +87,6 @@ func main() {
 	for indice := 0; indice < len(categorias(recorrido)); indice++ {
 		separar(caracteres_linea)
 		texto_de_linea := string(categorias(recorrido)[indice])
-		fmt.Println("\n\t", texto_de_linea, "\t\t|\t", contar(texto_de_linea, recorrido), "\t")
+		fmt.Println("\n\t", texto_de_linea, "\t\t|\t", contar(texto_de_linea, categorias(recorrido)), "\t")
 	}
 }
