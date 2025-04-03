@@ -18,56 +18,21 @@ func lineas(nombre_de_archivo string) []string {
 
 	lista := make([]string, len(caracteres_de_archivo))
 
-	for linea := 0; linea < len(caracteres_de_archivo); linea += 1 {
-		/*
-			- "á" bytes (195, 161) ordinal 225
+	for linea := 0; linea < len(lista); linea += 1 {
 
-			- "é" bytes (195, 169) ordinal 233
-
-			- "í" bytes (195, 173) ordinal 237
-
-			- "ó" bytes (195, 179) ordinal 243
-
-			- "ú" bytes (195, 186) ordinal 250
-		*/
-		if caracteres_de_archivo[linea] == 195 {
-			// Avanzo a caracter parametro de este caracter de control
-			linea += 1
-		}
-		// Se debe analizar cada uno de los casos por separado para ser mas flexible
-		if caracteres_de_archivo[linea] == 161 {
-			// Agrego a con tilde de forma directa para evitar errores
-			lista[linea] = "á"
-			// Voy al siguiente caracter para no mostrar versión defectuosa del caracter
-			linea += 1
+		if caracteres_de_archivo[linea] > 126 && caracteres_de_archivo[linea] < 32 {
+			// Si el caracter no es alfanumerico, analizo los siguientes
+			continue
 		}
 
-		if caracteres_de_archivo[linea] == 169 {
-			//  Misma lógica de arriba
-			lista[linea] = "é"
-			linea += 1
-		}
-
-		if caracteres_de_archivo[linea] == 173 {
-			lista[linea] = "í"
-			linea += 1
-		}
-
-		if caracteres_de_archivo[linea] == 179 {
-			lista[linea] = "ó"
-			linea += 1
-		}
-
-		if caracteres_de_archivo[linea] == 186 {
-			lista[linea] = "ú"
-			linea += 1
-		}
-
-		// Sumo caracteres a lista[linea] una vez que me posicione bien
-
-		if caracteres_de_archivo[linea] != 13 && caracteres_de_archivo[linea] != 10 && (linea+16) < len(caracteres_de_archivo) {
-			lista[linea] += string(caracteres_de_archivo[linea : linea+16])
+		if linea+16 < len(lista) {
+			// Asigno linea en la lista de caracter 1 a 16
+			lista[linea] = string(caracteres_de_archivo[linea : linea+17])
+			// Salto 16 caracteres asignados a la linea
 			linea += 16
+		} else {
+			// Paro ejecucion si no puedo asignar mas
+			break
 		}
 	} // Fin de iteracion
 
@@ -115,7 +80,7 @@ const caracteres_linea int = 49
 
 func main() {
 	// Muestra tabla con repeticiones de cada categoria en el archivo
-	fmt.Println("|\tCategorias\t|\tRepeticones\t|")
+	fmt.Println("|\tCategorías\t|\tRepeticiones\t|")
 	// Hago así para que se ejecute una vez la funcion lineas
 	recorrido := lineas("categorias.lista")
 	// Recorro cada una de las categorias y veo cuanto de cada una tiene el archivo
