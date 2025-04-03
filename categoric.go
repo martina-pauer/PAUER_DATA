@@ -119,10 +119,9 @@ func main() {
 	// Hago así para que se ejecute una vez la funcion lineas
 	recorrido := lineas("categorias.lista")
 	// Recorro cada una de las categorias y veo cuanto de cada una tiene el archivo
-	/*for indice := 0; indice < len(categorias(recorrido)); indice++ {
+	for indice := 0; indice < len(categorias(recorrido)); indice++ {
 		separar(caracteres_linea)
 		texto_de_linea := string(categorias(recorrido)[indice])
 		fmt.Println("\n\t", texto_de_linea, "\t\t|\t", contar(texto_de_linea, recorrido), "\t")
-	}*/
-	fmt.Println("lineas:", recorrido, "\ncategorias:\n", categorias(recorrido), "\nclasificación A:", contar("clasificación A", recorrido))
+	}
 }
