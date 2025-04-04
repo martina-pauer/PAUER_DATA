@@ -20,19 +20,19 @@ func lineas(nombre_de_archivo string) []string {
 
 	for linea := 0; linea < len(lista); linea += 1 {
 
-		if caracteres_de_archivo[linea] > 126 && caracteres_de_archivo[linea] < 32 {
+		if (caracteres_de_archivo[linea] < 65 || caracteres_de_archivo[linea] > 90) && (caracteres_de_archivo[linea] < 97 || caracteres_de_archivo[linea] > 122) && (caracteres_de_archivo[linea] < 37 || caracteres_de_archivo[linea] > 58) {
 			// Si el caracter no es alfanumerico, analizo los siguientes
 			continue
 		}
 
 		if linea+16 < len(lista) {
 			// Asigno caracter de linea en la lista
-			lista[linea] = string(caracteres_de_archivo[linea : linea+17])
+			lista[linea] = string(caracteres_de_archivo[linea : linea+16])
 			// Salto 16 caracteres asignados a la linea
 			linea += 16
 		} else {
 			// Paro ejecucion si no puedo asignar mas
-			break
+			continue
 		}
 	} // Fin de iteracion
 
@@ -83,10 +83,12 @@ func main() {
 	fmt.Println("|\tCategorías\t|\tRepeticiones\t|")
 	// Hago así para que se ejecute una vez la funcion lineas
 	recorrido := lineas("categorias.lista")
+	clasificaciones := categorias(recorrido)
 	// Recorro cada una de las categorias y veo cuanto de cada una tiene el archivo
-	for indice := 0; indice < len(categorias(recorrido)); indice++ {
-		separar(caracteres_linea)
-		texto_de_linea := string(categorias(recorrido)[indice])
-		fmt.Println("\n\t", texto_de_linea, "\t\t|\t", contar(texto_de_linea, categorias(recorrido)), "\t")
+	for indice := 0; indice < len(clasificaciones); indice++ {
+		if contar(clasificaciones[indice], recorrido) != 368 {
+			separar(caracteres_linea)
+			fmt.Println("\n\t", clasificaciones[indice], "\t\t|\t", contar(clasificaciones[indice], recorrido), "\t")
+		}
 	}
 }
