@@ -6,8 +6,12 @@ import (
 	"os"
 )
 
-func lineas(nombre_de_archivo string) []string {
-	// Devuelve una lista con lineas del archivo pasado como parametro
+func lineas(nombre_de_archivo string, longitud_de_caracteres uint8) []string {
+	/*
+		Devuelve una lista con lineas del archivo pasado como parametro
+		y considerando que por linea solo puede haber un entero fijo de
+		caracteres
+	*/
 
 	caracteres_de_archivo, mensaje_de_log := os.ReadFile(nombre_de_archivo)
 
@@ -25,11 +29,11 @@ func lineas(nombre_de_archivo string) []string {
 			continue
 		}
 
-		if linea+16 < len(lista) {
+		if (linea + int(longitud_de_caracteres)) < len(lista) {
 			// Asigno caracter de linea en la lista
-			lista[linea] = string(caracteres_de_archivo[linea : linea+16])
+			lista[linea] = string(caracteres_de_archivo[linea:(linea + int(longitud_de_caracteres))])
 			// Salto 16 caracteres asignados a la linea
-			linea += 16
+			linea += int(longitud_de_caracteres)
 		} else {
 			// Paro ejecucion si no puedo asignar mas
 			continue
@@ -82,7 +86,7 @@ func main() {
 	// Muestra tabla con repeticiones de cada categoria en el archivo
 	fmt.Println("|\tCategorías\t|\tRepeticiones\t|")
 	// Hago así para que se ejecute una vez la funcion lineas
-	recorrido := lineas("categorias.lista")
+	recorrido := lineas("categorias.lista", 16)
 	clasificaciones := categorias(recorrido)
 	// Recorro cada una de las categorias y veo cuanto de cada una tiene el archivo
 	for indice := 0; indice < len(clasificaciones); indice++ {
