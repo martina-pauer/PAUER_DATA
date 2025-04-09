@@ -1,5 +1,8 @@
-# PAUER_DATA
-Repositorio multi-branch donde cada rama es un proyecto de analisis de datos.
+# PAUER_DATA (enmascaramiento)
+Branch donde se usa script de 4 parametros para transformar contenidos de archivos (defacement)
+```bash
+  ./enmascara.py <archivo-de-entrada> <palabra-contigua> <texto-anterior> <texto-posterior>
+```
 ## Listado de ramas (branches)
 * [categoric](https://github.com/martina-pauer/PAUER_DATA/blob/categoric "Versión en Python")
 * [Categoric implementado en go](https://github.com/martina-pauer/PAUER_DATA/blob/categoric-go "Versión en Go")
